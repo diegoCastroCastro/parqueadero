@@ -7,6 +7,7 @@ import ec.ups.edu.appdis.g2.parqueadero.modelo.CierreDiaHora;
 
 public class CierreDiaHoraDAO {
 	
+	
 	public List<CierreDiaHora>getCierreDiaHora(Date dia){
 		return null;
 	}
