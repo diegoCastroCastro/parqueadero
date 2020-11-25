@@ -1,4 +1,4 @@
-package ec.ups.edu.appdis.g2.parqueadero.vista;
+package ec.ups.edu.appdis.g2.parqueadero.cliente.vista;
 
 import java.awt.EventQueue;
 

@@ -6,15 +6,18 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 import ec.ups.edu.appdis.g2.parqueadero.dao.ClienteDAO;
+import ec.ups.edu.appdis.g2.parqueadero.dao.VehiculoDAO;
 import ec.ups.edu.appdis.g2.parqueadero.modelo.Cliente;
 import ec.ups.edu.appdis.g2.parqueadero.modelo.Ticket;
 import ec.ups.edu.appdis.g2.parqueadero.modelo.Vehiculo;
 
 @Stateless
-public class GestionTicketON {
+public class GestionTicketON implements GestionTicketONRemoto{
 	
 	@Inject
 	private ClienteDAO daoCliente;
+	@Inject
+	private VehiculoDAO daoVehiculo;
 	
 	
 	public boolean registrarTicket(Ticket ticket) {
@@ -33,17 +36,39 @@ public class GestionTicketON {
 		return null;
 	} 
 	
-	public boolean registrarCliente(Cliente cliente) {
+	public boolean registrarCliente(Cliente cliente) throws Exception {
 		
-		//validado proceso
+		if (cliente.getDni().length()!=10)
+			throw new Exception("Cedula incorrecto");
 		
 		try {
 			daoCliente.insert(cliente);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			throw new Exception("Error al registrar");
 		}
 		
 		return true;
+	}
+	
+	public boolean registrarVehiculo (Vehiculo vehiculo) throws Exception {
+		if (validarPlaca(vehiculo.getPlaca()))
+			try {
+				daoVehiculo.insert(vehiculo);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				throw new Exception("Error al registrar");
+			}
+		else
+			throw new Exception ("Numero de placa incorrecto");
+		return true;
+	}
+	
+	private boolean validarPlaca(String placa) {
+		if (placa.length()==7)
+			return true;
+		return false;
 	}
 }

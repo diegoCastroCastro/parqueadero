@@ -23,7 +23,7 @@ public class VehiculoDAO {
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setInt(1, entity.getColor());
 		ps.setInt(2, entity.getMarca());
-		ps.setInt(3, entity.getPlaca());
+		ps.setString(3, entity.getPlaca());
 		
 		ps.executeUpdate();
 		ps.close();
